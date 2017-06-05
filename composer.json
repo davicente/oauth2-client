@@ -1,5 +1,5 @@
 {
-    "name": "league/oauth2-client",
+    "name": "davicente/oauth2-client",
     "description": "OAuth 2.0 Client Library",
     "license": "MIT",
     "config": {
@@ -39,8 +39,12 @@
             "name": "Woody Gilk",
             "homepage": "https://github.com/shadowhand",
             "role": "Contributor"
+        },
+        {
+            "name": "David Vicente Fuentes",
+            "homepage": "https://github.com/davicente",
+            "role": "Contributor"
         }
-
     ],
     "autoload": {
         "psr-4": {

@@ -1,6 +1,8 @@
 # OAuth 2.0 Client
 
 This package makes it simple to integrate your application with [OAuth 2.0](http://oauth.net/2/) service providers.
+Since 2.3.0 version (first version in this repo) Guzzle version used is v5.3. Several updates were made in order to 
+support this old version of Guzzle.
 
 [![Gitter Chat](https://img.shields.io/badge/gitter-join_chat-brightgreen.svg?style=flat-square)](https://gitter.im/thephpleague/oauth2-client)
 [![Source Code](http://img.shields.io/badge/source-thephpleague/oauth2--client-blue.svg?style=flat-square)](https://github.com/thephpleague/oauth2-client)
