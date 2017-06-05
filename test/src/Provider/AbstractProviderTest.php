@@ -14,8 +14,8 @@ use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\RequestFactory;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use PHPUnit_Framework_TestCase as TestCase;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\RequestInterface;
+use GuzzleHttp\Message\ResponseInterface;
+use GuzzleHttp\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
 
 class AbstractProviderTest extends TestCase
@@ -90,50 +90,6 @@ class AbstractProviderTest extends TestCase
         foreach ($options as $key => $value) {
             $this->assertAttributeEquals($value, $key, $mockProvider);
         }
-    }
-
-    public function testConstructorSetsClientOptions()
-    {
-        $timeout = rand(100, 900);
-
-        $mockProvider = new MockProvider(compact('timeout'));
-
-        $config = $mockProvider->getHttpClient()->getConfig();
-
-        $this->assertContains('timeout', $config);
-        $this->assertEquals($timeout, $config['timeout']);
-    }
-
-    public function testCanSetAProxy()
-    {
-        $proxy = '192.168.0.1:8888';
-
-        $mockProvider = new MockProvider(['proxy' => $proxy]);
-
-        $config = $mockProvider->getHttpClient()->getConfig();
-
-        $this->assertContains('proxy', $config);
-        $this->assertEquals($proxy, $config['proxy']);
-    }
-
-    public function testCannotDisableVerifyIfNoProxy()
-    {
-        $mockProvider = new MockProvider(['verify' => false]);
-
-        $config = $mockProvider->getHttpClient()->getConfig();
-
-        $this->assertContains('verify', $config);
-        $this->assertTrue($config['verify']);
-    }
-
-    public function testCanDisableVerificationIfThereIsAProxy()
-    {
-        $mockProvider = new MockProvider(['proxy' => '192.168.0.1:8888', 'verify' => false]);
-
-        $config = $mockProvider->getHttpClient()->getConfig();
-
-        $this->assertContains('verify', $config);
-        $this->assertFalse($config['verify']);
     }
 
     public function testConstructorSetsGrantFactory()
@@ -218,7 +174,7 @@ class AbstractProviderTest extends TestCase
                 $this->callback(function ($request) use ($url) {
                     return $request->getMethod() === 'GET'
                         && $request->hasHeader('Authorization')
-                        && (string) $request->getUri() === $url;
+                        && (string) $request->getUrl() === $url;
                 })
             ),
             $response->getBody->called(),
@@ -357,7 +313,7 @@ class AbstractProviderTest extends TestCase
             $client->send->calledWith(
                 $this->callback(function ($request) use ($method, $url) {
                     return $request->getMethod() === $method
-                        && (string) $request->getUri() === $url;
+                        && (string) $request->getUrl() === $url;
                 })
             ),
             $response->getBody->called(),
@@ -508,7 +464,7 @@ class AbstractProviderTest extends TestCase
             $client->send->calledWith(
                 $this->callback(function ($request) use ($provider) {
                     return $request->getMethod() === $provider->getAccessTokenMethod()
-                        && (string) $request->getUri() === $provider->getBaseAccessTokenUrl([]);
+                        && (string) $request->getUrl() === $provider->getBaseAccessTokenUrl([]);
                 })
             ),
             $response->getBody->called(),

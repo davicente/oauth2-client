@@ -14,6 +14,8 @@
 
 namespace League\OAuth2\Client\Tool;
 
+use GuzzleHttp\Stream\Stream;
+
 /**
  * Provides a standard way to generate query strings.
  */
@@ -29,5 +31,19 @@ trait QueryBuilderTrait
     protected function buildQueryString(array $params)
     {
         return http_build_query($params, null, '&', \PHP_QUERY_RFC3986);
+    }
+
+
+    /**
+     * Build a query string from an array as stream.
+     *
+     * @param array $params
+     *
+     * @return Stream
+     */
+    public function buildQueryStringAsStream(array $params)
+    {
+        $queryString = http_build_query($params, null, '&', \PHP_QUERY_RFC3986);
+        return Stream::factory($queryString);
     }
 }

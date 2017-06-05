@@ -14,7 +14,7 @@
 
 namespace League\OAuth2\Client\Tool;
 
-use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Message\Request;
 
 /**
  * Used to produce PSR-7 Request instances.
@@ -41,7 +41,7 @@ class RequestFactory
         $body = null,
         $version = '1.1'
     ) {
-        return new Request($method, $uri, $headers, $body, $version);
+        return new Request($method, $uri, $headers, $body, ['protocol_version' => $version]);
     }
 
     /**

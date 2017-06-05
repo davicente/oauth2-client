@@ -5,8 +5,9 @@ namespace League\OAuth2\Client\Test\Grant;
 use Eloquent\Phony\Phpunit\Phony;
 use GuzzleHttp\ClientInterface;
 use PHPUnit_Framework_TestCase as TestCase;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use GuzzleHttp\Message\ResponseInterface;
+
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Test\Provider\Fake as MockProvider;
 

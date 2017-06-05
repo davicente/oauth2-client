@@ -24,8 +24,8 @@ use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\ArrayAccessorTrait;
 use League\OAuth2\Client\Tool\QueryBuilderTrait;
 use League\OAuth2\Client\Tool\RequestFactory;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Message\RequestInterface;
+use GuzzleHttp\Message\ResponseInterface;
 use UnexpectedValueException;
 
 /**
@@ -471,7 +471,7 @@ abstract class AbstractProvider
      */
     protected function getAccessTokenBody(array $params)
     {
-        return $this->buildQueryString($params);
+        return $this->buildQueryStringAsStream($params);
     }
 
     /**

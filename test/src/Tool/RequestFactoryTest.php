@@ -3,11 +3,14 @@
 namespace League\OAuth2\Client\Test\Tool;
 
 use League\OAuth2\Client\Tool\RequestFactory;
+use League\OAuth2\Client\Tool\QueryBuilderTrait;
 use PHPUnit_Framework_TestCase as TestCase;
-use Psr\Http\Message\RequestInterface;
+use GuzzleHttp\Message\RequestInterface;
 
 class RequestFactoryTest extends TestCase
 {
+    use QueryBuilderTrait;
+
     public function setUp()
     {
         $this->factory = new RequestFactory;
@@ -22,16 +25,18 @@ class RequestFactoryTest extends TestCase
 
         $this->assertInstanceOf(RequestInterface::class, $request);
         $this->assertSame(strtoupper($method), $request->getMethod());
-        $this->assertSame($uri, (string) $request->getUri());
+        $this->assertSame($uri, (string) $request->getUrl());
 
         $headers         = ['X-Test' => 'Foo'];
-        $body            = 'test body';
+        $body            = $this->buildQueryStringAsStream(
+                                $params = [
+                                    'test'     => 'body'
+                                ]);
         $protocolVersion = '1.0';
 
         $request = $this->factory->getRequest($method, $uri, $headers, $body, $protocolVersion);
-
         $this->assertTrue($request->hasHeader('X-Test'));
-        $this->assertSame($body, (string) $request->getBody());
+        $this->assertSame((string) $body, (string) $request->getBody());
         $this->assertSame($protocolVersion, $request->getProtocolVersion());
     }
 
@@ -44,16 +49,20 @@ class RequestFactoryTest extends TestCase
 
         $this->assertInstanceOf(RequestInterface::class, $request);
         $this->assertSame(strtoupper($method), $request->getMethod());
-        $this->assertSame($uri, (string) $request->getUri());
+        $this->assertSame($uri, (string) $request->getUrl());
 
         $options = [
-            'body'    => 'another=test&form=body',
+            'body'    =>    $this->buildQueryStringAsStream(
+                                $params = [
+                                    'another'  => 'test',
+                                    'form'  => 'body'
+                                ]),
             'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
         ];
 
         $request = $this->factory->getRequestWithOptions($method, $uri, $options);
 
         $this->assertContains($options['headers']['Content-Type'], $request->getHeader('Content-Type'));
-        $this->assertSame($options['body'], (string) $request->getBody());
+        $this->assertSame((string) $options['body'], (string) $request->getBody());
     }
 }
