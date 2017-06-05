@@ -35,15 +35,29 @@ trait QueryBuilderTrait
 
 
     /**
-     * Build a query string from an array as stream.
+     * Build a query stream from an array
      *
      * @param array $params
      *
      * @return Stream
      */
-    public function buildQueryStringAsStream(array $params)
+    public function buildQueryAsStream(array $params)
     {
         $queryString = http_build_query($params, null, '&', \PHP_QUERY_RFC3986);
+        return Stream::factory($queryString);
+    }
+
+
+
+    /**
+     * Build a query stream from a string
+     *
+     * @param string $queryString
+     *
+     * @return Stream
+     */
+    public function buildQueryStringAsStream(string $queryString)
+    {
         return Stream::factory($queryString);
     }
 }

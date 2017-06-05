@@ -471,7 +471,7 @@ abstract class AbstractProvider
      */
     protected function getAccessTokenBody(array $params)
     {
-        return $this->buildQueryStringAsStream($params);
+        return $this->buildQueryAsStream($params);
     }
 
     /**

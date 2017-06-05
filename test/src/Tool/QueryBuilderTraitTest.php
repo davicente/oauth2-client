@@ -26,4 +26,28 @@ class QueryBuilderTraitTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame('a=foo&b=bar&c=%2B', $query);
     }
+
+
+    public function testBuildQueryStreamFromArray()
+    {
+        $params = [
+            'a' => 'foo',
+            'b' => 'bar',
+            'c' => '+',
+        ];
+
+        $query = $this->buildQueryAsStream($params);
+
+        $this->assertSame('a=foo&b=bar&c=%2B', (string) $query);
+    }
+
+
+    public function testBuildQueryStringAsStream()
+    {
+        $queryString = "a=foo&b=bar";
+
+        $query = $this->buildQueryStringAsStream($queryString);
+
+        $this->assertSame($queryString, (string) $query);
+    }
 }

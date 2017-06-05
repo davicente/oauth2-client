@@ -28,7 +28,7 @@ class RequestFactoryTest extends TestCase
         $this->assertSame($uri, (string) $request->getUrl());
 
         $headers         = ['X-Test' => 'Foo'];
-        $body            = $this->buildQueryStringAsStream(
+        $body            = $this->buildQueryAsStream(
                                 $params = [
                                     'test'     => 'body'
                                 ]);
@@ -52,7 +52,7 @@ class RequestFactoryTest extends TestCase
         $this->assertSame($uri, (string) $request->getUrl());
 
         $options = [
-            'body'    =>    $this->buildQueryStringAsStream(
+            'body'    =>    $this->buildQueryAsStream(
                                 $params = [
                                     'another'  => 'test',
                                     'form'  => 'body'
